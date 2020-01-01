@@ -6,10 +6,10 @@ import (
 	"io"
 
 	"github.com/tommy-sho/monkey/lexer"
-	"github.com/tommy-sho/monkey/token"
+	"github.com/tommy-sho/monkey/parser"
 )
 
-const PROMPT = "<<"
+const PROMPT = ">>"
 
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
@@ -18,14 +18,28 @@ func Start(in io.Reader, out io.Writer) {
 		fmt.Print(PROMPT)
 		scanned := scanner.Scan()
 		if !scanned {
+			fmt.Println("--")
 			return
 		}
 
 		line := scanner.Text()
 		l := lexer.New(line)
+		p := parser.New(l)
 
-		for tok := l.NextToken(); tok.Type != token.EOF; tok = l.NextToken() {
-			fmt.Printf("%+v\n", tok)
+		program := p.ParseProgram()
+		if len(p.Errors()) != 0 {
+			printParseError(out, p.Errors())
+			continue
 		}
+
+		io.WriteString(out, program.String())
+		io.WriteString(out, "\n")
+	}
+}
+
+func printParseError(out io.Writer, errors []string) {
+	fmt.Println("----error-------")
+	for _, msg := range errors {
+		io.WriteString(out, "\t"+msg+"\n")
 	}
 }
