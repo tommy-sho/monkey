@@ -18,7 +18,6 @@ func Start(in io.Reader, out io.Writer) {
 		fmt.Print(PROMPT)
 		scanned := scanner.Scan()
 		if !scanned {
-			fmt.Println("--")
 			return
 		}
 
