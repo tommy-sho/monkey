@@ -259,3 +259,9 @@ func (c *CallExpression) String() string {
 
 	return out.String()
 }
+
+type FuncLiteral struct {
+	Token      token.Token
+	Parameters []*Identifier
+	Body       *BlockStatement
+}

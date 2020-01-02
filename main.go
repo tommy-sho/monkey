@@ -15,6 +15,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Hello %s!, This is the monky languege\n", userName)
+	fmt.Printf("Hello %s!, This is the monky languege\n", userName.Name)
 	repl.Start(os.Stdin, os.Stdout)
 }
