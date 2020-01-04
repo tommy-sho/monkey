@@ -1,6 +1,10 @@
 package evaluator
 
-import "github.com/tommy-sho/monkey/object"
+import (
+	"fmt"
+
+	"github.com/tommy-sho/monkey/object"
+)
 
 var builtins = map[string]*object.Builtin{
 	"len": {Fn: func(args ...object.Object) object.Object {
@@ -76,6 +80,13 @@ var builtins = map[string]*object.Builtin{
 		newElements := make([]object.Object, length+1, length+1)
 		copy(newElements, arr.Elements)
 		newElements[length] = args[1]
+
+		return NULL
+	}},
+	"put": {Fn: func(args ...object.Object) object.Object {
+		for _, arg := range args {
+			fmt.Println(arg.Inspect())
+		}
 
 		return NULL
 	}},
